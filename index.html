@@ -8,10 +8,31 @@
 </head>
 <body>
     <h1>ثبت نام ورزشکاران</h1>
+    
+    <input type="text" id="search" placeholder="جستجو">
+
     <form id="athleteForm">
         <label for="name">نام:</label>
         <input type="text" id="name" name="name" required>
-        <br>
+        
+        <label for="lastName">نام خانوادگی:</label>
+        <input type="text" id="lastName" name="lastName" required>
+        
+        <label for="phone">شماره موبایل:</label>
+        <input type="tel" id="phone" name="phone" required>
+        
+        <label for="address">آدرس:</label>
+        <textarea id="address" name="address" required></textarea>
+        
+        <label for="birthdate">تاریخ تولد:</label>
+        <input type="date" id="birthdate" name="birthdate" required>
+        
+        <label for="gender">جنسیت:</label>
+        <select id="gender" name="gender" required>
+            <option value="مرد">مرد</option>
+            <option value="زن">زن</option>
+        </select>
+
         <label for="days">روزهای تمرین:</label>
         <select id="days" name="days" multiple required>
             <option value="شنبه">شنبه</option>
@@ -22,16 +43,30 @@
             <option value="پنج‌شنبه">پنج‌شنبه</option>
             <option value="جمعه">جمعه</option>
         </select>
-        <br>
+        
         <label for="time">ساعت تمرین:</label>
         <input type="time" id="time" name="time" required>
-        <br>
+
         <button type="submit">ثبت نام</button>
     </form>
-
+    
     <h2>ورزشکاران ثبت شده</h2>
-    <input type="text" id="search" placeholder="جستجو">
-    <ul id="athleteList"></ul>
+    <table id="athleteTable">
+        <thead>
+            <tr>
+                <th>نام</th>
+                <th>نام خانوادگی</th>
+                <th>شماره موبایل</th>
+                <th>آدرس</th>
+                <th>تاریخ تولد</th>
+                <th>جنسیت</th>
+                <th>روزهای تمرین</th>
+                <th>ساعت تمرین</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody id="athleteList"></tbody>
+    </table>
 
     <script src="script.js"></script>
 </body>
