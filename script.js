@@ -86,8 +86,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${athlete.days.join(', ')}</td>
                 <td>${athlete.time}</td>
                 <td>
-                    <button onclick="editAthlete(${index})">ویرایش</button>
-                    <button onclick="deleteAthlete(${index})">حذف</button>
+                    <button class="edit-btn" onclick="editAthlete(${index})">ویرایش</button>
+                    <button class="delete-btn" onclick="deleteAthlete(${index})">حذف</button>
                 </td>
             `;
             athleteList.appendChild(tr);
