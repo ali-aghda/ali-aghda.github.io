@@ -1,5 +1,13 @@
+@font-face {
+    font-family: 'IRANSans';
+    src: url('path/to/IRANSans.woff2') format('woff2'),
+         url('path/to/IRANSans.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
-    font-family: 'Vazir', sans-serif; /* تغییر به فونت Vazir */
+    font-family: 'IRANSans', sans-serif; /* تغییر به فونت IRANSans */
     direction: rtl;
     text-align: right;
 }
@@ -98,9 +106,12 @@ tr:hover {
 
 #days {
     display: flex;
-    flex-wrap: nowrap; /* قرار دادن تمام روزها در یک خط */
+    flex-wrap: nowrap; /* قرار دادن روزها در یک خط */
     gap: 10px;
-    overflow-x: auto; /* اسکرول افقی در صورت نیاز */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
 }
 
 #days label {
