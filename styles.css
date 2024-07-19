@@ -1,5 +1,5 @@
 body {
-    font-family: 'Vazir', sans-serif;
+    font-family: 'IRANSans', sans-serif;
     direction: rtl;
     text-align: right;
 }
@@ -11,12 +11,13 @@ form {
 .form-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 10px;
 }
 
 .form-group {
     flex: 1;
     min-width: 150px;
+    max-width: 200px; /* محدود کردن عرض حداکثری */
 }
 
 label {
@@ -78,9 +79,9 @@ tr:hover {
 
 #days {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 #days label {
-    margin: 2px 0;
+    margin: 2px 5px;
 }

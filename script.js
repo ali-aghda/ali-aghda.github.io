@@ -1,5 +1,5 @@
 document.getElementById('athleteForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+    event.preventDefault(); // جلوگیری از بارگذاری مجدد صفحه
 
     // دریافت اطلاعات فرم
     const name = document.getElementById('name').value;
