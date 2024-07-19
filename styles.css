@@ -84,6 +84,7 @@ form {
     flex: 1;
     min-width: 200px;
     max-width: 250px;
+    margin-bottom: 15px;
 }
 
 .form-group label {
@@ -115,6 +116,7 @@ form {
 #time {
     width: 100%;
     padding: 8px;
+    margin-top: 15px; /* فاصله بیشتر از سایر فرم‌ها */
 }
 
 table {
