@@ -17,7 +17,7 @@ form {
 .form-group {
     flex: 1;
     min-width: 150px;
-    max-width: 200px; /* محدود کردن عرض حداکثری */
+    max-width: 200px;
 }
 
 label {
