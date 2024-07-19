@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     populateTimeOptions();
-    
+
     document.getElementById('athleteForm').addEventListener('submit', function(event) {
         event.preventDefault(); // جلوگیری از بارگذاری مجدد صفحه
 
@@ -14,13 +14,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const days = Array.from(document.querySelectorAll('#days input:checked')).map(input => input.value);
         const time = document.getElementById('time').value;
 
-        // بررسی اینکه روزها و ساعت تمرین برای شاگرد دیگری انتخاب نشده باشد
+        // بررسی تداخل ساعت
         let athletes = JSON.parse(localStorage.getItem('athletes')) || [];
+        let conflict = false;
+        let conflictNames = [];
+
         for (let athlete of athletes) {
             if (athlete.time === time && days.some(day => athlete.days.includes(day))) {
-                alert('این روزها و ساعت تمرین قبلاً توسط شاگرد دیگری انتخاب شده است.');
-                return;
+                conflict = true;
+                conflictNames.push(`${athlete.name} ${athlete.lastName}`);
             }
+        }
+
+        if (conflict) {
+            alert(`این ساعت تمرین با ساعت‌های زیر تداخل دارد:\n${conflictNames.join(', ')}`);
+            return;
         }
 
         // ایجاد یک آبجکت ورزشکار
@@ -40,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('search').addEventListener('input', function() {
         displayAthletes(this.value);
     });
-    
+
     function populateTimeOptions() {
         const timeSelect = document.getElementById('time');
         const startHour = 7;
@@ -94,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function editAthlete(index) {
+    window.editAthlete = function(index) {
         const athletes = JSON.parse(localStorage.getItem('athletes')) || [];
         const athlete = athletes[index];
         
@@ -119,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
         displayAthletes();
     }
 
-    function deleteAthlete(index) {
+    window.deleteAthlete = function(index) {
         const athletes = JSON.parse(localStorage.getItem('athletes')) || [];
         athletes.splice(index, 1);
         localStorage.setItem('athletes', JSON.stringify(athletes));

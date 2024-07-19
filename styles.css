@@ -99,8 +99,9 @@ tr:hover {
 #days {
     display: flex;
     flex-wrap: wrap;
+    gap: 10px;
 }
 
 #days label {
-    margin: 2px 5px;
+    margin: 0;
 }
