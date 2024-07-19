@@ -15,18 +15,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const ctx = document.getElementById('trainingChart').getContext('2d');
 
-    // نمونه داده‌ها (این داده‌ها باید به صورت پویا از پایگاه داده یا فرم جمع‌آوری شوند)
+    const athleteData = []; // داده‌های نمونه برای تست
+
     const data = {
         labels: ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه'],
-        datasets: [
-            {
-                label: 'ساعات تمرین',
-                data: [5, 3, 4, 2, 6, 1, 4], // تعداد ساعات تمرین برای هر روز
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-            }
-        ]
+        datasets: [{
+            label: 'ساعات تمرین',
+            data: [0, 0, 0, 0, 0, 0, 0], // این داده‌ها باید به صورت پویا از پایگاه داده یا فرم‌ها اضافه شوند
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+        }]
     };
 
     const config = {
@@ -40,33 +39,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
-                            let label = context.dataset.label || '';
-                            if (label) {
-                                label += ': ';
-                            }
-                            if (context.parsed.y !== null) {
-                                label += context.parsed.y + ' ساعت';
-                            }
-                            return label;
+                        label: function(tooltipItem) {
+                            const day = data.labels[tooltipItem.dataIndex];
+                            const timeSlots = athleteData.filter(a => a.days.includes(day)).map(a => a.time).join(', ');
+                            const names = athleteData.filter(a => a.days.includes(day)).map(a => a.name).join(', ');
+                            return `ساعات: ${timeSlots} (${names})`;
                         }
                     }
-                }
-            },
-            scales: {
-                x: {
-                    beginAtZero: true
-                },
-                y: {
-                    beginAtZero: true
                 }
             }
         }
     };
 
-    new Chart(ctx, config);
+    const myChart = new Chart(ctx, config);
 
-    // فرم ثبت‌نام
     const form = document.getElementById('athleteForm');
     form.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -99,7 +85,24 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         list.appendChild(row);
 
+        // ذخیره داده‌ها برای نمودار
+        athleteData.push({ name, days, time });
+
+        // به‌روزرسانی نمودار
+        updateChart();
+
         // پاک کردن فرم
         form.reset();
     });
+
+    function updateChart() {
+        const dayCounts = { شنبه: 0, یکشنبه: 0, دوشنبه: 0, سه‌شنبه: 0, چهارشنبه: 0, پنج‌شنبه: 0, جمعه: 0 };
+        athleteData.forEach(a => {
+            a.days.forEach(day => dayCounts[day]++);
+        });
+
+        const data = myChart.data;
+        data.datasets[0].data = Object.values(dayCounts);
+        myChart.update();
+    }
 });

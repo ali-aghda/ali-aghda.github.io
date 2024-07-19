@@ -118,3 +118,8 @@ tr:hover {
     margin: 0;
     white-space: nowrap; /* جلوگیری از شکست متن */
 }
+
+#trainingChart {
+    max-width: 100%;
+    height: auto;
+}
