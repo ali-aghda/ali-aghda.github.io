@@ -1,139 +1,105 @@
-document.addEventListener('DOMContentLoaded', function() {
-    populateTimeOptions();
+document.addEventListener('DOMContentLoaded', () => {
+    const timeSelect = document.getElementById('time');
+    const hours = [];
+    for (let hour = 7; hour <= 23; hour += 0.5) {
+        const hourStr = (hour % 1 === 0 ? hour + ':00' : Math.floor(hour) + ':30');
+        const period = hour < 12 ? 'صبح' : 'عصر';
+        hours.push(`${hourStr} ${period}`);
+    }
+    hours.forEach(hour => {
+        const option = document.createElement('option');
+        option.value = hour;
+        option.textContent = hour;
+        timeSelect.appendChild(option);
+    });
 
-    document.getElementById('athleteForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // جلوگیری از بارگذاری مجدد صفحه
+    const ctx = document.getElementById('trainingChart').getContext('2d');
 
-        // دریافت اطلاعات فرم
+    // نمونه داده‌ها (این داده‌ها باید به صورت پویا از پایگاه داده یا فرم جمع‌آوری شوند)
+    const data = {
+        labels: ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه'],
+        datasets: [
+            {
+                label: 'ساعات تمرین',
+                data: [5, 3, 4, 2, 6, 1, 4], // تعداد ساعات تمرین برای هر روز
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+            }
+        ]
+    };
+
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += context.parsed.y + ' ساعت';
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    };
+
+    new Chart(ctx, config);
+
+    // فرم ثبت‌نام
+    const form = document.getElementById('athleteForm');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
         const name = document.getElementById('name').value;
         const lastName = document.getElementById('lastName').value;
         const phone = document.getElementById('phone').value;
         const address = document.getElementById('address').value;
         const birthdate = document.getElementById('birthdate').value;
         const gender = document.getElementById('gender').value;
-        const days = Array.from(document.querySelectorAll('#days input:checked')).map(input => input.value);
         const time = document.getElementById('time').value;
+        const days = Array.from(document.querySelectorAll('#days input:checked')).map(cb => cb.value);
 
-        // بررسی تداخل ساعت
-        let athletes = JSON.parse(localStorage.getItem('athletes')) || [];
-        let conflict = false;
-        let conflictNames = [];
+        const list = document.getElementById('athleteList');
+        const row = document.createElement('tr');
 
-        for (let athlete of athletes) {
-            if (athlete.time === time && days.some(day => athlete.days.includes(day))) {
-                conflict = true;
-                conflictNames.push(`${athlete.name} ${athlete.lastName}`);
-            }
-        }
-
-        if (conflict) {
-            alert(`این ساعت تمرین با ساعت‌های زیر تداخل دارد:\n${conflictNames.join(', ')}`);
-            return;
-        }
-
-        // ایجاد یک آبجکت ورزشکار
-        const athlete = { name, lastName, phone, address, birthdate, gender, days, time };
-
-        // ذخیره ورزشکار در localStorage
-        athletes.push(athlete);
-        localStorage.setItem('athletes', JSON.stringify(athletes));
-
-        // نمایش ورزشکاران
-        displayAthletes();
+        row.innerHTML = `
+            <td>${name}</td>
+            <td>${lastName}</td>
+            <td>${phone}</td>
+            <td>${address}</td>
+            <td>${birthdate}</td>
+            <td>${gender}</td>
+            <td>${days.join(', ')}</td>
+            <td>${time}</td>
+            <td>
+                <button class="edit-btn">ویرایش</button>
+                <button class="delete-btn">حذف</button>
+            </td>
+        `;
+        list.appendChild(row);
 
         // پاک کردن فرم
-        document.getElementById('athleteForm').reset();
+        form.reset();
     });
-
-    document.getElementById('search').addEventListener('input', function() {
-        displayAthletes(this.value);
-    });
-
-    function populateTimeOptions() {
-        const timeSelect = document.getElementById('time');
-        const startHour = 7;
-        const endHour = 23;
-        const intervals = 30; // نیم ساعت
-        const amPm = ['صبح', 'عصر'];
-
-        for (let hour = startHour; hour <= endHour; hour++) {
-            for (let minute = 0; minute < 60; minute += intervals) {
-                let hourDisplay = hour % 12 || 12;
-                let amPmDisplay = hour < 12 ? amPm[0] : amPm[1];
-                let timeOption = `${hourDisplay}:${minute.toString().padStart(2, '0')} ${amPmDisplay}`;
-                let value = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-
-                let option = document.createElement('option');
-                option.value = value;
-                option.textContent = timeOption;
-                timeSelect.appendChild(option);
-            }
-        }
-    }
-
-    function displayAthletes(search = '') {
-        const athleteList = document.getElementById('athleteList');
-        athleteList.innerHTML = '';
-
-        let athletes = JSON.parse(localStorage.getItem('athletes')) || [];
-
-        // فیلتر کردن بر اساس جستجو
-        athletes = athletes.filter(athlete => {
-            return Object.values(athlete).some(value => value.toString().includes(search));
-        });
-
-        athletes.forEach((athlete, index) => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${athlete.name}</td>
-                <td>${athlete.lastName}</td>
-                <td>${athlete.phone}</td>
-                <td>${athlete.address}</td>
-                <td>${athlete.birthdate || '---'}</td>
-                <td>${athlete.gender}</td>
-                <td>${athlete.days.join(', ')}</td>
-                <td>${athlete.time}</td>
-                <td>
-                    <button class="edit-btn" onclick="editAthlete(${index})">ویرایش</button>
-                    <button class="delete-btn" onclick="deleteAthlete(${index})">حذف</button>
-                </td>
-            `;
-            athleteList.appendChild(tr);
-        });
-    }
-
-    window.editAthlete = function(index) {
-        const athletes = JSON.parse(localStorage.getItem('athletes')) || [];
-        const athlete = athletes[index];
-        
-        document.getElementById('name').value = athlete.name;
-        document.getElementById('lastName').value = athlete.lastName;
-        document.getElementById('phone').value = athlete.phone;
-        document.getElementById('address').value = athlete.address;
-        document.getElementById('birthdate').value = athlete.birthdate;
-        document.getElementById('gender').value = athlete.gender;
-        
-        // تنظیم چک‌باکس‌ها برای روزهای تمرین
-        const checkboxes = document.querySelectorAll('#days input');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = athlete.days.includes(checkbox.value);
-        });
-        
-        document.getElementById('time').value = athlete.time;
-
-        // حذف ورزشکار از لیست و نمایش مجدد
-        athletes.splice(index, 1);
-        localStorage.setItem('athletes', JSON.stringify(athletes));
-        displayAthletes();
-    }
-
-    window.deleteAthlete = function(index) {
-        const athletes = JSON.parse(localStorage.getItem('athletes')) || [];
-        athletes.splice(index, 1);
-        localStorage.setItem('athletes', JSON.stringify(athletes));
-        displayAthletes();
-    }
-
-    // نمایش اولیه ورزشکاران
-    displayAthletes();
 });

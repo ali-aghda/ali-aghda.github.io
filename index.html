@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مدیریت ورزشکاران</title>
     <link rel="stylesheet" href="styles.css"> <!-- پیوند به فایل CSS -->
-    <!-- اضافه کردن فونت IRANSans از Google Fonts (در صورت استفاده از سرویس آنلاین) -->
-    <link href="https://fonts.googleapis.com/css2?family=IRANSans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IRANSans:wght@400;500;700&display=swap" rel="stylesheet"> <!-- اضافه کردن فونت IRANSans -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- اضافه کردن Chart.js -->
 </head>
 <body>
     <h1>مدیریت ورزشکاران</h1>
@@ -78,6 +78,13 @@
             <!-- اطلاعات ورزشکاران در اینجا نمایش داده خواهد شد -->
         </tbody>
     </table>
+
+    <!-- نمودار برای نمایش داده‌ها -->
+    <div>
+        <h2>نمودار ساعات تمرین</h2>
+        <canvas id="trainingChart"></canvas>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
