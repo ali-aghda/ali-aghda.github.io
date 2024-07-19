@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ثبت نام ورزشکاران</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css">
+    <style>
+        body {
+            font-family: 'Vazir', sans-serif;
+        }
+    </style>
 </head>
 <body>
     <h1>ثبت نام ورزشکاران</h1>
@@ -12,40 +18,58 @@
     <input type="text" id="search" placeholder="جستجو">
 
     <form id="athleteForm">
-        <label for="name">نام:</label>
-        <input type="text" id="name" name="name" required>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="name">نام:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
         
-        <label for="lastName">نام خانوادگی:</label>
-        <input type="text" id="lastName" name="lastName" required>
+            <div class="form-group">
+                <label for="lastName">نام خانوادگی:</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
         
-        <label for="phone">شماره موبایل:</label>
-        <input type="tel" id="phone" name="phone" required>
+            <div class="form-group">
+                <label for="phone">شماره موبایل:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+        </div>
         
-        <label for="address">آدرس:</label>
-        <textarea id="address" name="address" required></textarea>
+        <div class="form-group">
+            <label for="address">آدرس:</label>
+            <textarea id="address" name="address" required></textarea>
+        </div>
         
-        <label for="birthdate">تاریخ تولد:</label>
-        <input type="date" id="birthdate" name="birthdate" required>
+        <div class="form-group">
+            <label for="birthdate">تاریخ تولد:</label>
+            <input type="date" id="birthdate" name="birthdate">
+        </div>
         
-        <label for="gender">جنسیت:</label>
-        <select id="gender" name="gender" required>
-            <option value="مرد">مرد</option>
-            <option value="زن">زن</option>
-        </select>
+        <div class="form-group">
+            <label for="gender">جنسیت:</label>
+            <select id="gender" name="gender" required>
+                <option value="مرد">مرد</option>
+                <option value="زن">زن</option>
+            </select>
+        </div>
 
-        <label for="days">روزهای تمرین:</label>
-        <select id="days" name="days" multiple required>
-            <option value="شنبه">شنبه</option>
-            <option value="یک‌شنبه">یک‌شنبه</option>
-            <option value="دوشنبه">دوشنبه</option>
-            <option value="سه‌شنبه">سه‌شنبه</option>
-            <option value="چهارشنبه">چهارشنبه</option>
-            <option value="پنج‌شنبه">پنج‌شنبه</option>
-            <option value="جمعه">جمعه</option>
-        </select>
+        <div class="form-group">
+            <label for="days">روزهای تمرین:</label>
+            <div id="days" name="days">
+                <label><input type="checkbox" value="شنبه">شنبه</label>
+                <label><input type="checkbox" value="یک‌شنبه">یک‌شنبه</label>
+                <label><input type="checkbox" value="دوشنبه">دوشنبه</label>
+                <label><input type="checkbox" value="سه‌شنبه">سه‌شنبه</label>
+                <label><input type="checkbox" value="چهارشنبه">چهارشنبه</label>
+                <label><input type="checkbox" value="پنج‌شنبه">پنج‌شنبه</label>
+                <label><input type="checkbox" value="جمعه">جمعه</label>
+            </div>
+        </div>
         
-        <label for="time">ساعت تمرین:</label>
-        <input type="time" id="time" name="time" required>
+        <div class="form-group">
+            <label for="time">ساعت تمرین:</label>
+            <input type="time" id="time" name="time" required>
+        </div>
 
         <button type="submit">ثبت نام</button>
     </form>
@@ -70,4 +94,4 @@
 
     <script src="script.js"></script>
 </body>
-</html> 
+</html>

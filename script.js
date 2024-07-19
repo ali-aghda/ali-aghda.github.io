@@ -8,14 +8,22 @@ document.getElementById('athleteForm').addEventListener('submit', function(event
     const address = document.getElementById('address').value;
     const birthdate = document.getElementById('birthdate').value;
     const gender = document.getElementById('gender').value;
-    const days = Array.from(document.getElementById('days').selectedOptions).map(option => option.value);
+    const days = Array.from(document.querySelectorAll('#days input:checked')).map(input => input.value);
     const time = document.getElementById('time').value;
+
+    // بررسی اینکه روزها و ساعت تمرین برای شاگرد دیگری انتخاب نشده باشد
+    let athletes = JSON.parse(localStorage.getItem('athletes')) || [];
+    for (let athlete of athletes) {
+        if (athlete.time === time && days.some(day => athlete.days.includes(day))) {
+            alert('این روزها و ساعت تمرین قبلاً توسط شاگرد دیگری انتخاب شده است.');
+            return;
+        }
+    }
 
     // ایجاد یک آبجکت ورزشکار
     const athlete = { name, lastName, phone, address, birthdate, gender, days, time };
 
     // ذخیره ورزشکار در localStorage
-    let athletes = JSON.parse(localStorage.getItem('athletes')) || [];
     athletes.push(athlete);
     localStorage.setItem('athletes', JSON.stringify(athletes));
 
@@ -48,7 +56,7 @@ function displayAthletes(search = '') {
             <td>${athlete.lastName}</td>
             <td>${athlete.phone}</td>
             <td>${athlete.address}</td>
-            <td>${athlete.birthdate}</td>
+            <td>${athlete.birthdate || '---'}</td>
             <td>${athlete.gender}</td>
             <td>${athlete.days.join(', ')}</td>
             <td>${athlete.time}</td>
@@ -72,7 +80,12 @@ function editAthlete(index) {
     document.getElementById('birthdate').value = athlete.birthdate;
     document.getElementById('gender').value = athlete.gender;
     
-    document.getElementById('days').value = athlete.days;
+    // تنظیم چک‌باکس‌ها برای روزهای تمرین
+    const checkboxes = document.querySelectorAll('#days input');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = athlete.days.includes(checkbox.value);
+    });
+    
     document.getElementById('time').value = athlete.time;
 
     // حذف ورزشکار از لیست و نمایش مجدد
@@ -88,5 +101,5 @@ function deleteAthlete(index) {
     displayAthletes();
 }
 
-// نمایش ورزشکاران در بارگذاری صفحه
+// نمایش اولیه ورزشکاران
 displayAthletes();
