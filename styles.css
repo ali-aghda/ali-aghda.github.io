@@ -1,5 +1,5 @@
 body {
-    font-family: 'IRANSans', sans-serif;
+    font-family: 'Vazir', sans-serif; /* تغییر به فونت Vazir */
     direction: rtl;
     text-align: right;
 }
@@ -98,10 +98,12 @@ tr:hover {
 
 #days {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* قرار دادن تمام روزها در یک خط */
     gap: 10px;
+    overflow-x: auto; /* اسکرول افقی در صورت نیاز */
 }
 
 #days label {
     margin: 0;
+    white-space: nowrap; /* جلوگیری از شکست متن */
 }

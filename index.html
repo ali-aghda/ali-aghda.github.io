@@ -3,82 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ثبت نام ورزشکاران</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        @font-face {
-            font-family: 'IRANSans';
-            src: url('https://cdn.jsdelivr.net/gh/rastikerdar/iransans@5.0.0/dist/fonts/ttf/IRANSansWeb.ttf') format('truetype');
-        }
-        body {
-            font-family: 'IRANSans', sans-serif;
-        }
-    </style>
+    <title>مدیریت ورزشکاران</title>
+    <link rel="stylesheet" href="styles.css"> <!-- پیوند به فایل CSS -->
+    <!-- اضافه کردن فونت Vazir از Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>ثبت نام ورزشکاران</h1>
-    
-    <input type="text" id="search" placeholder="جستجو">
-
+    <h1>مدیریت ورزشکاران</h1>
+    <input type="text" id="search" placeholder="جستجو...">
     <form id="athleteForm">
         <div class="form-row">
             <div class="form-group">
-                <label for="name">نام:</label>
-                <input type="text" id="name" name="name" required>
+                <label for="name">نام</label>
+                <input type="text" id="name" required>
             </div>
-        
             <div class="form-group">
-                <label for="lastName">نام خانوادگی:</label>
-                <input type="text" id="lastName" name="lastName" required>
+                <label for="lastName">نام خانوادگی</label>
+                <input type="text" id="lastName" required>
             </div>
-        
             <div class="form-group">
-                <label for="phone">شماره موبایل:</label>
-                <input type="tel" id="phone" name="phone" required>
+                <label for="phone">شماره موبایل</label>
+                <input type="text" id="phone" required>
             </div>
         </div>
-        
-        <div class="form-group">
-            <label for="address">آدرس:</label>
-            <textarea id="address" name="address" required></textarea>
-        </div>
-        
-        <div class="form-group">
-            <label for="birthdate">تاریخ تولد:</label>
-            <input type="date" id="birthdate" name="birthdate">
-        </div>
-        
-        <div class="form-group">
-            <label for="gender">جنسیت:</label>
-            <select id="gender" name="gender" required>
-                <option value="مرد">مرد</option>
-                <option value="زن">زن</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="days">روزهای تمرین:</label>
-            <div id="days" name="days">
-                <label><input type="checkbox" value="شنبه">شنبه</label>
-                <label><input type="checkbox" value="یک‌شنبه">یک‌شنبه</label>
-                <label><input type="checkbox" value="دوشنبه">دوشنبه</label>
-                <label><input type="checkbox" value="سه‌شنبه">سه‌شنبه</label>
-                <label><input type="checkbox" value="چهارشنبه">چهارشنبه</label>
-                <label><input type="checkbox" value="پنج‌شنبه">پنج‌شنبه</label>
-                <label><input type="checkbox" value="جمعه">جمعه</label>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="address">آدرس</label>
+                <textarea id="address"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="birthdate">تاریخ تولد</label>
+                <input type="date" id="birthdate">
+            </div>
+            <div class="form-group">
+                <label for="gender">جنسیت</label>
+                <select id="gender" required>
+                    <option value="مرد">مرد</option>
+                    <option value="زن">زن</option>
+                </select>
             </div>
         </div>
-        
-        <div class="form-group">
-            <label for="time">ساعت تمرین:</label>
-            <select id="time" name="time" required></select>
+        <div class="form-row">
+            <div class="form-group" id="days">
+                <label><input type="checkbox" value="شنبه"> شنبه</label>
+                <label><input type="checkbox" value="یکشنبه"> یکشنبه</label>
+                <label><input type="checkbox" value="دوشنبه"> دوشنبه</label>
+                <label><input type="checkbox" value="سه‌شنبه"> سه‌شنبه</label>
+                <label><input type="checkbox" value="چهارشنبه"> چهارشنبه</label>
+                <label><input type="checkbox" value="پنج‌شنبه"> پنج‌شنبه</label>
+                <label><input type="checkbox" value="جمعه"> جمعه</label>
+            </div>
+            <div class="form-group">
+                <label for="time">ساعت تمرین</label>
+                <select id="time" required></select>
+            </div>
         </div>
-
         <button type="submit" class="submit-btn">ثبت نام</button>
     </form>
-    
-    <h2>ورزشکاران ثبت شده</h2>
-    <table id="athleteTable">
+    <table>
         <thead>
             <tr>
                 <th>نام</th>
@@ -92,9 +74,10 @@
                 <th>عملیات</th>
             </tr>
         </thead>
-        <tbody id="athleteList"></tbody>
+        <tbody id="athleteList">
+            <!-- اطلاعات ورزشکاران در اینجا نمایش داده خواهد شد -->
+        </tbody>
     </table>
-
     <script src="script.js"></script>
 </body>
 </html>
